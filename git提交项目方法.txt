@@ -1,0 +1,65 @@
+Git使用简化流程规范
+Git基础入门文档参考 git入门手册
+
+1.第一次拉代码,将线上代码clone到本地文件夹local_dir
+
+git clone URL local_dir
+2.创建新分支(本质是将当前分支copy为一个新的本地分支)
+
+git branch new-branch
+3.从master（或者其他线上分支）上拉取新分支
+
+git pull origin master:local-branch
+git checkout local-branch # 切换至分支local-branch
+4.第一次推送本地分支到线上[然后别人才可以获取到此分支]
+
+git push origin local-branch:local-branch
+5.提交此次修改到git
+
+如果有新增文件，先执行：
+
+git add . #将新文件添加到git管理中
+提交修改（提交直本地git管理中，并未推送至线上）：
+
+git commit -am '修改备注'
+[注]
+（1）5的两条命令需在当前git根目录执行
+（2）5、6两条命令（commit 和 fetch）可以互换顺序，不影响
+
+6.拉取线上更新（只拉取不更新）
+
+git fetch --all
+7.合并当前分支其他人的提交记录
+
+git pull --rebase
+7.1当这一步发生冲突时，需要先找到冲突文件，解决冲突，然后执行如下步骤：
+
+git add . #将冲突修改添加到git
+
+git rebase --continue
+如果再发生冲突，在修改冲突之后继续重复7.1的提交方式，直至冲突解决
+
+8.推送本地提交至线上
+
+git push origin branch-dev:branch-dev
+线上分支已存在时，可以直接使用git push命令，git会自动推送到线上匹配的分支中
+
+9.上线之前，合并主分支：
+
+git rebase origin/master
+10.如果产生冲突，按照7中的方式解决冲突，完成之后
+
+11.合并过master之后的推送方式
+
+git push -f origin branch-dev:branch-dev
+因为合并过master，所以需要-f强推（force）
+
+12.主分支合并代码
+
+git checkout master # 切换至主分支
+git pull --rebaes # 更新主分支【前提是有fetch --all过】
+git merge branch-dev # 将分支branch-dev的修改合并到主分支
+git push # [推送合并之后的主分支到线上]
+git tag --list # 查看当前版本号列表
+git tag -a '版本号' -m '版本内容'
+git push --tags # 推送tag上线，

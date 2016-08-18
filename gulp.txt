@@ -1,0 +1,86 @@
+node  "node_modules\gulp\bin\gulp.js" -sw
+
+D:/project/dist
+这两个效果一样，如果下面的有问题，用上面的，比如转换字符串时出错
+D:\project\dist
+
+
+gulp 前端构建工具  它可以帮助我们完成一些自动化操作
+
+	它需要一些插件的支持
+
+	var gulp = require('gulp'); --> gulp命令
+
+	require('yargs').argv;
+	它可以监听gulp后面添加的参数
+
+	关闭 gulp 服务器： 执行 ctrl + c
+	var less = require('gulp-less'); -->> less预处理器，目的就是把 .less文件转换成普通css文件
+	var header = require('gulp-header');
+
+	var minify = require('gulp-minify-css');
+	把css文件压缩
+
+
+	var autoprefixer = require('gulp-autoprefixer');
+	自动增加css3前缀
+
+
+	var rename = require('gulp-rename');
+
+	var sourcemaps = require('gulp-sourcemaps');
+
+	var browserSync = require('browser-sync');
+	//这个插件就是同步刷新浏览器所会用到插件
+	var uglify = require('uglifyify');
+
+
+	var concat = require('gulp-concat');
+	//这个插件 作用 把A.JS b.JS c.JS 自动的合并成同一个js文件
+
+
+
+
+	gulp目录结构
+	根本目的：在于关注度分离
+	dist --> 网页发布到服务器所需要目录（只关心最后的发布环境）
+	src --> 开发者在开发时 所会使用到的目录（只关心开发环境）
+	node_modules --> 自动化工具所需要插件依赖集合文件
+
+	gulp 基础使用：
+	需要nodejs的支持
+	安装： 
+	1. npm install -g gulp
+	2. npm install -save-dev gulp
+	若都安装成功， 你才可以直接运行 gulp命令
+
+	若都失败：  node  "node_modules\gulp\bin\gulp.js"  --> gulp
+
+	
+	假设你现在需要gulp中的less预处理器插件，首先你需要安装
+	npm install -save-dev gulp-less
+	装好之后，你需要引入它，执行
+	var less = require('gulp-less');
+
+	gulp执行环境有一个统一标准，都只能在gulpfile.js里执行
+
+	gulp里最核心的东西叫做 task
+	gulp gongyifeng
+	语法：
+	gulp.task("gongyifeng", function(){
+		console.log('gongyifeng')
+	})
+
+	gulp.task("task_one", function(){
+		console.log('task_one')
+	})
+
+	gulp.task("task_two", function(){
+		console.log('task_two')
+	})
+
+	gulp.task("task_three", ['task_one', 'task_two'], function(){
+		console.log('task_three')
+	})
+
+	gulp 它会执行一个默认任务名字 叫做 default
